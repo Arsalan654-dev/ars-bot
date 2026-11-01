@@ -1,0 +1,14 @@
+{
+  "name": "lisa-mirror",
+  "version": "1.0.0",
+  "private": true,
+  "description": "L.I.S.A conversational frontend — original recreation with SCSS + vanilla JS",
+  "scripts": {
+    "watch": "sass assets/scss/main.scss assets/css/main.css --watch --no-source-map",
+    "build": "sass assets/scss/main.scss assets/css/main.css --no-source-map --style=compressed",
+    "serve": "npx serve ."
+  },
+  "devDependencies": {
+    "sass": "^1.70.0"
+  }
+}

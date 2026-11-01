@@ -1,0 +1,686 @@
+// ============================================================
+//  Shared page layouts (Work / Agency / Careers / Contact)
+//  Same design tokens & 3D mood as the LISA home.
+// ============================================================
+
+.c-page {
+  position: relative;
+  padding-top: var(--header-height);
+}
+
+.c-page-hero {
+  min-height: 100svh;
+  display: grid;
+  align-items: end;
+  padding: var(--header-height) var(--grid-margin) 6rem;
+  overflow: hidden;
+  position: relative;
+
+  &__label {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  &__heading {
+    font-size: clamp(4rem, 11vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-top: 1.2rem;
+  }
+  &__lead {
+    max-width: 46ch;
+    font-size: var(--font-size-medium);
+    line-height: 1.4;
+    margin-top: 2rem;
+  }
+  &__meta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+  }
+}
+
+.c-page-hero__bg {
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  background:
+    radial-gradient(120% 80% at 70% 20%, rgba(0, 0, 0, 0.06), transparent 60%),
+    radial-gradient(90% 60% at 10% 80%, rgba(0, 0, 0, 0.04), transparent 55%);
+  transition: transform 0.35s $ease-out;
+}
+
+// ------------------------------------------------------------
+//  Scroll reveal helper
+// ------------------------------------------------------------
+.js-reveal {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.8s $ease-out, transform 0.8s $ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.js-reveal--slow { transition-duration: 1.2s; }
+
+// ------------------------------------------------------------
+//  Horizontal marquee band
+// ------------------------------------------------------------
+.c-marquee {
+  border-top: 1px solid color-mix(in srgb, var(--color) 16%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color) 16%, transparent);
+  overflow: hidden;
+  padding: 1.8rem 0;
+}
+
+.c-marquee__track {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  animation: marqueeScroll 26s linear infinite;
+  font-family: $font-display;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+.c-marquee__item { display: inline-flex; gap: 4rem; align-items: center; }
+
+@keyframes marqueeScroll {
+  to { transform: translateX(-50%); }
+}
+
+// ------------------------------------------------------------
+//  Section scaffolding
+// ------------------------------------------------------------
+.c-section {
+  padding: 7rem var(--grid-margin);
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+
+  &__head {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &::before {
+      content: '';
+      width: 3rem;
+      height: 1px;
+      background-color: currentColor;
+    }
+  }
+
+  &__title {
+    font-size: clamp(2.4rem, 6vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-family: $font-display;
+    font-weight: 300;
+  }
+
+  &__body {
+    max-width: 56ch;
+    font-size: var(--font-size-medium);
+    line-height: 1.4;
+  }
+}
+
+// ------------------------------------------------------------
+//  Project / gallery grid (Work page)
+// ------------------------------------------------------------
+.c-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+  margin-top: 4rem;
+
+  @include tablet { grid-template-columns: 1fr; }
+}
+
+.c-project-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ececec, #cdcdcd);
+  cursor: pointer;
+  transition: transform $duration $ease-out, box-shadow $duration $ease-out;
+  transform-style: preserve-3d;
+
+  &:hover {
+    transform: translate3d(0, -6px, 30px) rotateX(-4deg);
+    box-shadow:
+      0 28px 44px -20px rgba(0, 0, 0, 0.4),
+      0 6px 14px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  &__label {
+    position: absolute;
+    left: 1.2rem;
+    bottom: 1.2rem;
+    color: $color-black;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  &__tag {
+    position: absolute;
+    right: 1.2rem;
+    top: 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  &__bg {
+    position: absolute;
+    inset: -8%;
+    background:
+      radial-gradient(100% 90% at 70% 30%, rgba(0, 0, 0, 0.08), transparent 60%);
+    transition: transform 1.2s $ease-out;
+  }
+  &:hover &__bg {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+}
+
+// ------------------------------------------------------------
+//  Capability / team grid (Agency)
+// ------------------------------------------------------------
+.c-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  @include tablet { grid-template-columns: repeat(2, 1fr); }
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.c-cap-card {
+  border-radius: 18px;
+  background-color: color-mix(in srgb, var(--color) 4%, transparent);
+  padding: 2rem 1.6rem;
+  min-height: 14rem;
+  transition: transform $duration $ease-out, background-color $duration $ease-out;
+  transform-style: preserve-3d;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--color) 8%, transparent);
+    transform: translate3d(0, -4px, 18px);
+  }
+
+  h3 {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    opacity: 0.75;
+  }
+}
+
+// ------------------------------------------------------------
+//  Job list (Careers)
+// ------------------------------------------------------------
+.c-job-list {
+  border-top: 1px solid color-mix(in srgb, var(--color) 16%, transparent);
+}
+
+.c-job {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color) 16%, transparent);
+  transition: padding 0.3s $ease-out;
+
+  &__title {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: 1.3rem;
+  }
+  &__tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  &__cta {
+    @include center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: var(--color);
+    color: var(--color-bg);
+    transition: transform 0.3s $ease-out, background-color 0.3s $ease-out;
+  }
+
+  &:hover {
+    padding-left: 0.6rem;
+
+    .c-job__cta {
+      transform: translate3d(0, 0, 20px) scale(1.08);
+    }
+  }
+
+  @include tablet {
+    grid-template-columns: 1fr auto;
+
+    .c-job__tag,
+    .c-job__cta { grid-column: 2; }
+  }
+}
+
+// ------------------------------------------------------------
+//  Footer
+// ------------------------------------------------------------
+.c-page-footer {
+  padding: 5rem var(--grid-margin) 3rem;
+  border-top: 1px solid color-mix(in srgb, var(--color) 16%, transparent);
+  margin-top: 5rem;
+
+  &__heading {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 2rem;
+  }
+
+  &__newsletter {
+    display: flex;
+    gap: 0.6rem;
+    max-width: 460px;
+    border-bottom: 1px solid var(--color);
+    padding-bottom: 0.4rem;
+
+    input {
+      flex: 1;
+      background: transparent;
+      padding: 0.4rem 0;
+      outline: none;
+    }
+  }
+
+  &__cta {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.8rem 1.6rem;
+    background-color: var(--color);
+    color: var(--color-bg);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    transition: transform 0.3s $ease-out;
+
+    &:hover { transform: translate3d(0, -2px, 12px); }
+  }
+}
+
+// ------------------------------------------------------------
+//  Project cards — image variant + overlay
+// ------------------------------------------------------------
+.c-project-card {
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s $ease-out;
+  }
+
+  &:hover &__image {
+    transform: scale(1.05);
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.4rem;
+    padding-top: 4rem;
+    background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.72));
+    color: $color-white;
+    opacity: 0;
+    transition: opacity $duration $ease-out;
+    z-index: 2;
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.45;
+      margin: 0;
+    }
+  }
+
+  &:hover &__overlay {
+    opacity: 1;
+  }
+
+  &__label,
+  &__tag {
+    z-index: 3;
+  }
+
+  &__video {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    z-index: 3;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.92);
+    color: $color-black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: transform $duration $ease-out;
+
+    &:hover { transform: scale(1.12); }
+  }
+}
+
+// ------------------------------------------------------------
+//  Alternating content blocks (agency / careers pages)
+// ------------------------------------------------------------
+.c-section--blocks {
+  gap: 5rem;
+}
+
+.c-page-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+
+  @include desktop {
+    grid-template-columns: 1.1fr 1fr;
+
+    &.-reverse {
+      direction: rtl;
+
+      > * { direction: ltr; }
+    }
+  }
+
+  &__media {
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--color) 5%, transparent);
+
+    img,
+    video,
+    iframe {
+      width: 100%;
+      display: block;
+      border: 0;
+    }
+
+    img,
+    video {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    iframe {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+
+  &__video-link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: opacity $duration $ease-out;
+
+    &:hover { opacity: 0.65; }
+  }
+}
+
+// ------------------------------------------------------------
+//  Empty state
+// ------------------------------------------------------------
+.c-page-empty {
+  grid-column: 1 / -1;
+  padding: 4rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  opacity: 0.55;
+  border: 1px dashed color-mix(in srgb, var(--color) 22%, transparent);
+  border-radius: 16px;
+}
+
+// ------------------------------------------------------------
+//  Footer meta rows
+// ------------------------------------------------------------
+.c-page-footer {
+  &__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.6rem;
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+
+    a {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+
+      &:hover { opacity: 0.7; }
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 0.3rem;
+  }
+
+  &__socials {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    opacity: 0.75;
+    padding-top: 1.6rem;
+    border-top: 1px solid color-mix(in srgb, var(--color) 12%, transparent);
+  }
+}
+
+// ------------------------------------------------------------
+//  Pricing grid (dynamic plans)
+// ------------------------------------------------------------
+.c-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.4rem;
+  margin-top: 3.5rem;
+  align-items: stretch;
+}
+
+.c-pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color) 14%, transparent);
+  border-radius: 22px;
+  padding: 2.2rem 1.8rem 1.8rem;
+  background-color: var(--color-bg);
+  transition:
+    transform $duration $ease-out,
+    box-shadow $duration $ease-out,
+    border-color $duration $ease-out;
+  transform-style: preserve-3d;
+
+  &:hover {
+    transform: translate3d(0, -5px, 24px);
+    box-shadow: 0 26px 46px -24px rgba(0, 0, 0, 0.35);
+    border-color: color-mix(in srgb, var(--color) 35%, transparent);
+  }
+
+  &.-featured {
+    border-color: var(--color);
+    box-shadow: 0 22px 44px -26px rgba(0, 0, 0, 0.32);
+
+    &::before {
+      content: 'Most popular';
+      position: absolute;
+      top: -0.75rem;
+      left: 1.5rem;
+      background-color: var(--color);
+      color: var(--color-bg);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.32rem 0.85rem;
+      border-radius: 999px;
+    }
+  }
+
+  &__name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  &__price {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+
+  &__currency {
+    font-size: 0.42em;
+    font-weight: 400;
+    opacity: 0.55;
+  }
+
+  &__period {
+    font-family: $font-primary;
+    font-size: 0.3em;
+    opacity: 0.5;
+  }
+
+  &__desc {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    opacity: 0.72;
+  }
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.88rem;
+    padding-top: 0.2rem;
+
+    li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      line-height: 1.4;
+
+      &::before {
+        content: '\2713'; // ✓
+        font-size: 0.8em;
+        margin-top: 0.15em;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    background-color: var(--color);
+    color: var(--color-bg);
+    padding: 0.85rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition:
+      transform $duration $ease-out,
+      opacity $duration $ease-out;
+
+    &:hover {
+      transform: translate3d(0, -2px, 12px);
+      opacity: 0.88;
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Back to top pill (present on every page)
+// ------------------------------------------------------------
+.c-backtop {
+  position: fixed;
+  bottom: var(--grid-margin);
+  right: var(--grid-margin);
+  width: 2.6667rem;
+  height: 2.6667rem;
+  border-radius: 50%;
+  background-color: var(--color);
+  color: var(--color-bg);
+  @include center;
+  font-size: 1.1rem;
+  z-index: $z-content;
+  transition: opacity 0.3s $ease-out, transform 0.3s $ease-out;
+  opacity: 0;
+  pointer-events: none;
+
+  &.is-visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &:hover { transform: translate3d(0, -3px, 20px) scale(1.06); }
+  &:active { transform: scale(0.94); }
+}

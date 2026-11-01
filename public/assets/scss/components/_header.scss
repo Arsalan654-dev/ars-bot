@@ -1,0 +1,254 @@
+// ============================================================
+//  Header — fixed grid bar, hides on scroll down,
+//  blends to difference over the hero
+// ============================================================
+
+.c-header_bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--color-bg);
+  transition: background-color $duration $ease-out;
+  z-index: $z-header-bg;
+  opacity: 1;
+
+  html[data-theme='lisa'] & { --color-bg: transparent; }
+  html.is-ready & { transition: background-color $duration $ease-out, opacity 0.2s $ease-out; }
+}
+
+.c-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: $z-header;
+  font-size: var(--font-size-medium);
+  line-height: 1.2;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: 1.3333rem;
+  padding: 0 var(--grid-margin);
+  transition: transform $duration $ease-out;
+
+  a:not(.c-header_logo) {
+    &:hover,
+    &.-current {
+      text-decoration: underline;
+      text-decoration-thickness: var(--border-size);
+      text-underline-offset: 0.1em;
+    }
+
+    &:not(.focus-visible) { outline: none; }
+  }
+}
+
+// Hide when scrolling down, reveal when scrolling up
+html.is-scrolling-down:not(.has-menu-opened) .c-header {
+  transform: translate3d(0, calc(var(--header-height) * -1), 0);
+}
+
+html.is-scrolling-up:not(.has-menu-opened) .c-header {
+  transform: translate3d(0, 0, 0);
+}
+
+html.is-over-hero:not(.has-menu-opened) .c-header {
+  mix-blend-mode: difference;
+  color: var(--color-bg);
+}
+
+html.has-menu-opened .c-header {
+  --color: var(--menu-color);
+  --color-bg: var(--menu-color-bg);
+  color: var(--color);
+}
+
+// ------------------------------------------------------------
+//  Header logo with image
+// ------------------------------------------------------------
+.c-header_logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: $font-display;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  font-size: 0.95em;
+
+  &:hover { text-decoration: none; }
+
+  &_img {
+    width: 1.7em;
+    height: 1.7em;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  &_inner {
+    display: inline-block;
+  }
+}
+
+.c-header_icon {
+  position: relative;
+  height: 0.9em;
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+  text-align: left;
+
+  &::before {
+    content: '\25D0'; // ◐
+    font-size: 150%;
+    line-height: 1;
+  }
+}
+
+.c-header_menu {
+  grid-column: 7 / 11;
+  grid-row: 1 / 2;
+  display: inline-block;
+
+  @include tablet { display: none; }
+}
+
+.c-header-menu_list {
+  white-space: nowrap;
+}
+
+.c-header-menu_item {
+  display: inline-block;
+
+  &:not(:last-child)::after {
+    content: ',';
+  }
+}
+
+.c-header-menu_link {
+  font-kerning: none;
+}
+
+.c-header_cta {
+  grid-column: 11 / 13;
+  grid-row: 1 / 2;
+  text-align: right;
+  justify-self: end;
+
+  @include tablet { display: none; }
+}
+
+// ------------------------------------------------------------
+//  Minimal variant — bot page: logo left, "Let's talk" right,
+//  no nav links (the links live in the page footer instead)
+// ------------------------------------------------------------
+.c-header.-bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .c-header_icon,
+  .c-header_menu,
+  .c-header_menu-toggler { display: none; }
+
+  .c-header_cta {
+    display: block;
+    justify-self: auto;
+  }
+}
+
+.c-header_menu-toggler {
+  display: none;
+  grid-column: 7 / 9;
+  grid-row: 1 / 2;
+  justify-self: end;
+
+  @include tablet {
+    display: block;
+    grid-column: 3 / 5;
+  }
+}
+
+// ============================================================
+//  Fullscreen menu (mobile)
+// ============================================================
+
+.c-menu {
+  --color: var(--menu-color);
+  --color-bg: var(--menu-color-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z-menu;
+  color: var(--color);
+  background-color: var(--menu-color-bg);
+  overflow: auto;
+
+  html:not(.has-menu-opened) & { display: none; }
+}
+
+.c-menu_inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--grid-margin);
+  padding-top: var(--header-height);
+  padding-bottom: 2.6667rem;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+.c-menu_nav {
+  margin-bottom: 2.6667rem;
+
+  &_item {
+    overflow: hidden;
+  }
+
+  &_link {
+    display: inline-block;
+    font-size: var(--font-size-h1);
+    font-family: $font-display;
+    font-weight: 300;
+    line-height: 1.1;
+    transform: translate3d(0, 110%, 0);
+    transition: transform 0.6s $ease-out;
+
+    html.has-menu-opened & {
+      transform: translate3d(0, 0, 0);
+    }
+
+    // Staggered entrance
+    @for $i from 1 through 6 {
+      html.has-menu-opened &.is-delay-#{$i} {
+        transition-delay: #{0.05 * $i}s;
+      }
+    }
+
+    &.-current {
+      text-decoration: underline;
+      text-decoration-thickness: var(--border-size);
+      text-underline-offset: 0.1em;
+    }
+  }
+}
+
+.c-menu_footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-medium);
+}
+
+.c-menu_langswitcher {
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+}
+
+.c-menu_location {
+  user-select: none;
+}

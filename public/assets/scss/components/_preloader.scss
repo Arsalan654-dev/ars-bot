@@ -1,0 +1,136 @@
+// ============================================================
+//  Preloader — logo + rolling word counters on black
+// ============================================================
+
+.c-preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $color-black;
+  color: $color-white;
+  z-index: $z-preloader;
+  transition: opacity $duration-slow $ease-out;
+
+  svg {
+    display: block;
+    width: min(250px, 70vw);
+    height: 10vh;
+  }
+
+  // Faded out once the app is ready
+  html:not(.is-first-loading) & {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.c-preloader_outer {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  @include center;
+}
+
+.c-preloader_inner {
+  position: relative;
+  width: min(250px, 70vw);
+  height: 10vh;
+  min-height: 44px;
+}
+
+.c-preloader_logo {
+  display: block;
+  opacity: 1;
+  animation: preloaderAppear 0.9s $ease-out 0.3s backwards;
+  transform: rotateX(var(--prx, 0deg)) rotateY(var(--pry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.35s $ease-out;
+  will-change: transform;
+}
+
+.c-preloader_logo svg {
+  width: 100%;
+  height: 100%;
+  fill: $color-white;
+}
+
+// Rolling text columns ("Digital-First Design" / "Based in Montreal, Canada")
+.c-preloader_content {
+  font-kerning: none;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  padding: 0 var(--grid-margin);
+  pointer-events: none;
+
+  > div {
+    overflow: hidden;
+    font-size: var(--font-size-h3);
+    line-height: 1.2;
+    white-space: nowrap;
+
+    span {
+      display: block;
+      transform: translate3d(0, 100%, 0);
+      transition: transform 0.6s $ease-out;
+
+      &.-in { transform: translate3d(0, 0, 0); }
+      &.-out { transform: translate3d(0, -100%, 0); }
+    }
+  }
+
+  > div:nth-child(1) {
+    grid-column: 5 / 13;
+    grid-row: 1 / 2;
+    align-self: end;
+  }
+
+  > div:nth-child(2) {
+    grid-column: 6 / 13;
+    grid-row: 2 / 3;
+    align-self: start;
+  }
+
+  @include tablet {
+    grid-template-columns: repeat(4, 1fr);
+
+    > div:nth-child(1) { grid-column: 1 / 5; }
+    > div:nth-child(2) { grid-column: 2 / 5; }
+  }
+}
+
+@keyframes preloaderAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+// Wordmark with logo image (Cyprus Digital Solutions branding)
+.c-preloader_wordmark {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(18px, 3vw, 26px);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
+
+.c-preloader_logo_img {
+  width: 2.2em;
+  height: 2.2em;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}

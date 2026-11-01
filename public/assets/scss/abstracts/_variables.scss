@@ -1,0 +1,55 @@
+// ============================================================
+//  LISA — Design tokens (mirrors locomotive.ca design system)
+// ============================================================
+
+// Colors (theme driven via data-theme on <html>)
+$color-black: #000000;
+$color-white: #ffffff;
+$color-red: #da382e;
+$color-blue: #312dfb;
+$color-crimson: crimson;
+
+// Easing / durations (Locomotive's signature ease-out curve)
+$ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+$duration-fast: 0.15s;
+$duration: 0.3s;
+$duration-slow: 0.9s;
+
+// Grid
+$grid-columns: 12;
+$grid-gutter: 20px;
+$grid-margin: 2.6667rem; // 40px @ 15px root
+$header-height: 4rem;
+
+// Breakpoints
+$bp-mobile: 699px;
+$bp-tablet: 1024px;
+$bp-desktop: 1025px;
+
+// Spacing scale (unitless, multiplied by root font-size)
+$spacing: (
+  'micro': 14,
+  'tiny': 20,
+  'small': 30,
+  'medium': 40,
+  'large': 80,
+  'big': 150,
+  'huge': 200,
+  'enormous': 250,
+);
+
+// Type scale
+// Stand-ins for the licensed Helvetica Now Display / PP Locomotive New faces
+$font-primary: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Layers
+$z-visualizer: 0;
+$z-content: 10;
+$z-header-bg: 740;
+$z-menu: 750;
+$z-header: 800;
+$z-note: 840;
+$z-cursor: 9000;
+$z-preloader: 9999;

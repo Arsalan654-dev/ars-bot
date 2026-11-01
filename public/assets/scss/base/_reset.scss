@@ -1,0 +1,134 @@
+// ============================================================
+//  Reset & base
+// ============================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, ul, ol, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1em;
+  font-weight: initial;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  display: block;
+}
+
+svg {
+  fill: currentColor;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+  background-color: transparent;
+
+  svg { pointer-events: none; }
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  outline: 0;
+  line-height: normal;
+}
+
+button,
+.c-button {
+  display: inline-block;
+  padding: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  vertical-align: middle;
+  text-align: center;
+  text-transform: none;
+  line-height: normal;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio,
+iframe {
+  vertical-align: middle;
+}
+
+template,
+[hidden] {
+  display: none;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+select {
+  text-transform: none;
+
+  &::-ms-expand { display: none; }
+}
+
+[type='checkbox'],
+[type='radio'] {
+  box-sizing: border-box;
+  padding: 0;
+}

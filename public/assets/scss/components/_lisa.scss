@@ -1,0 +1,522 @@
+// ============================================================
+//  LISA — conversational UI, visualizer, dialog, choices
+// ============================================================
+
+.c-lisa {
+  position: relative;
+  display: grid;
+  padding: 0 var(--grid-margin);
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+  height: 100svh;
+}
+
+// ------------------------------------------------------------
+//  Visualizer — fullscreen reactive canvas behind everything
+// ------------------------------------------------------------
+.c-lisa_visualizer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z-visualizer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ------------------------------------------------------------
+//  Main conversation column
+// ------------------------------------------------------------
+.c-lisa_main {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 0 var(--grid-margin);
+  z-index: $z-content;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  @include desktop {
+    width: 100%;
+    padding-right: calc(
+      (
+        (100vw - var(--grid-gutter) * (var(--grid-columns) - 1) - var(--grid-margin) * 2) * 8 /
+          var(--grid-columns) + var(--grid-gutter) * 7
+      ) + var(--grid-margin)
+    );
+  }
+
+  // Bottom sheet treatment on small screens
+  @include tablet {
+    inset: calc(50% - 8px) 0 0 0;
+    background-color: var(--color-bg);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: inset $duration $ease-out;
+  }
+}
+
+.c-lisa.is-compact {
+  @include tablet {
+    .c-lisa_main { inset: calc(80% - 8px) 0 0 0; }
+
+    .c-lisa_main:empty { inset: 100% 0 0 0; }
+  }
+}
+
+// ------------------------------------------------------------
+//  Step (one dialog turn)
+// ------------------------------------------------------------
+.c-lisa-step {
+  position: relative;
+  min-height: fit-content;
+  padding: 1.3333rem 1.3333rem 1.3333rem 0;
+  margin-left: calc(var(--grid-margin) * -1);
+  padding-left: var(--grid-margin);
+  margin-right: calc(var(--grid-margin) * -1);
+  overflow: hidden;
+  --dialog-font-size: var(--font-size-h3);
+
+  @include desktop {
+    padding-top: 50vh;
+    padding-right: var(--grid-gutter);
+    --dialog-font-size: var(--font-size-h2);
+  }
+}
+
+// Blur/scale choreography when moving between steps
+.c-lisa-step {
+  &.default-leave-active,
+  &.backwards-leave-active,
+  &.backwards-enter-active {
+    transition: opacity $duration $ease-out;
+  }
+}
+
+// ------------------------------------------------------------
+//  Dialog line — typed text with blinking block cursor
+// ------------------------------------------------------------
+.c-lisa-step_dialog {
+  display: block;
+  margin: auto;
+  font-size: var(--dialog-font-size);
+  line-height: 1.1;
+  transform-origin: top left;
+  transition: transform $duration $ease-out;
+
+  > span {
+    position: relative;
+
+    // Blinking block caret while typing / idle
+    &.-show-cursor::after {
+      content: '';
+      display: inline-block;
+      height: 0.5em;
+      width: 0.4em;
+      margin-left: 0.25em;
+      transform: scaleY(1.75) translateY(5%);
+      transform-origin: bottom center;
+      background-color: var(--color);
+      animation: lisaCursor 1s linear infinite;
+    }
+  }
+}
+
+.c-lisa-step.-expanded .c-lisa-step_dialog {
+  transform: translate3d(0, 0, 0) scale(0.9);
+}
+
+// Leaving forward: slide up, blur out
+.c-lisa-step.default-leave-active .c-lisa-step_dialog {
+  transition: transform $duration $ease-out, filter $duration $ease-out;
+}
+
+.c-lisa-step.default-leave-to .c-lisa-step_dialog {
+  transform: translate3d(0, calc(-100% - 2.6667rem), 0) scale(0.8);
+  filter: blur(4px);
+}
+
+// Leaving backward: shrink + fade
+.c-lisa-step.backwards-leave-active .c-lisa-step_dialog {
+  transition: opacity $duration-fast $ease-out, transform $duration $ease-out;
+}
+
+.c-lisa-step.backwards-leave-to .c-lisa-step_dialog {
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(0.8);
+}
+
+// ------------------------------------------------------------
+//  Previous sentence ghost (clickable, blurred)
+// ------------------------------------------------------------
+.c-lisa-step_previous {
+  display: block;
+  margin: auto;
+  font-size: var(--dialog-font-size);
+  line-height: 1.1;
+  user-select: none;
+  cursor: pointer;
+  position: absolute;
+  transform: translate3d(0, calc(-100% - 2.6667rem), 0) scale(0.8);
+  transform-origin: top left;
+  filter: blur(4px);
+  transition: transform $duration $ease-out, filter $duration $ease-out;
+
+  &:hover { filter: blur(3px); }
+}
+
+.c-lisa-step.default-leave-active .c-lisa-step_previous,
+.c-lisa-step.backwards-enter-active .c-lisa-step_previous {
+  transition: transform $duration $ease-out, opacity $duration $ease-out;
+}
+
+.c-lisa-step.default-leave-to .c-lisa-step_previous,
+.c-lisa-step.backwards-enter-from .c-lisa-step_previous {
+  transform: translate3d(0, calc(-200% - 2.6667rem), 0) scale(0.5);
+  opacity: 0;
+}
+
+.c-lisa-step.backwards-leave-active .c-lisa-step_previous {
+  transition: transform $duration $ease-out, filter $duration $ease-out;
+}
+
+.c-lisa-step.backwards-leave-to .c-lisa-step_previous {
+  transform: translate3d(0, 0, 0) scale(1);
+  transform-origin: top left;
+  filter: blur(0px);
+}
+
+// ------------------------------------------------------------
+//  Step content (choices / forms) — revealed when expanded
+// ------------------------------------------------------------
+.c-lisa-step_content {
+  margin-top: 1.3333rem;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $duration $ease-out, transform $duration $ease-out;
+  padding-bottom: 10.6667rem;
+  transform: translate3d(0, 1.3333rem, 0);
+
+  @include tablet {
+    padding-bottom: 5.3333rem;
+  }
+
+  &:empty { display: none; }
+}
+
+.c-lisa-step.-expanded:not(.default-leave-to):not(.backwards-leave-to) .c-lisa-step_content {
+  pointer-events: all;
+  transition: opacity $duration $ease-out 0.1s, transform $duration $ease-out 0.1s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.c-lisa-step_choices {
+  @include desktop {
+    max-width: calc(
+      (100vw - var(--grid-gutter) * (var(--grid-columns) - 1) - var(--grid-margin) * 2) * 3 /
+        var(--grid-columns) + var(--grid-gutter) * 3
+    );
+  }
+}
+
+.c-lisa-step_choice {
+  margin: 0 0.2em 0.4em 0.2em;
+}
+
+.c-lisa-step_next {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.c-lisa-step_errors {
+  display: block;
+  background-color: $color-black;
+  color: $color-white;
+  border-radius: 4px;
+  width: 100%;
+  overflow: auto;
+  margin: 1em 0;
+  max-height: 100px;
+  font-size: 90%;
+
+  > ul {
+    list-style: square;
+    padding: revert;
+    margin: revert;
+  }
+}
+
+// ------------------------------------------------------------
+//  Buttons / checkboxes — pill toggles
+// ------------------------------------------------------------
+.c-lisa_button,
+.c-lisa_checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1em;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-color: var(--color);
+  color: var(--color-bg);
+  padding: 0.5em 1.5em;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color $duration $ease-out, color $duration $ease-out,
+    border-color $duration $ease-out;
+
+  &:hover,
+  &.focus-visible {
+    border-color: var(--color);
+    background-color: var(--color-bg);
+    color: var(--color);
+  }
+
+  &.-secondary {
+    color: var(--color);
+    background-color: transparent;
+    border: 1px solid color-mix(in srgb, var(--color) 20%, transparent);
+
+    &:hover {
+      background-color: var(--color);
+      color: var(--color-bg);
+    }
+  }
+
+  &.-primary {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: transparent;
+      transition: background-color $duration $ease-out;
+    }
+
+    &:hover::before {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.c-lisa-step_copy-icon {
+  width: 1em;
+  height: 1em;
+}
+
+// ------------------------------------------------------------
+//  Progress bar — thin scaling line at the bottom
+// ------------------------------------------------------------
+.c-lisa_progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 4px solid var(--color);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: bottom left;
+  transition: transform $duration $ease-out;
+  z-index: $z-content;
+  pointer-events: none;
+}
+
+// ------------------------------------------------------------
+//  Sound toggle — rolling circle icon
+// ------------------------------------------------------------
+.c-lisa_sound {
+  position: fixed;
+  bottom: var(--grid-margin);
+  right: var(--grid-margin);
+  background-color: var(--color);
+  display: flex;
+  flex-direction: column;
+  border-radius: 2.6667rem;
+  cursor: pointer;
+  z-index: $z-content;
+  width: 2.6667rem;
+  height: 2.6667rem;
+
+  @include tablet {
+    bottom: calc(50% + 8px + 1.3333rem);
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.6667rem;
+    height: 2.6667rem;
+    background-color: var(--color-bg);
+    border-radius: 50%;
+    border: 3px solid var(--color);
+    transform: translate3d(0, 0, 0);
+    transition: transform $duration $ease-out;
+  }
+
+  &.-muted::before {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+// Bot page: on smaller screens keep the toggle above the chatbox card,
+// stacked under the About pill in the top-right corner
+@include tablet {
+  body.is-bot-page .c-lisa_sound {
+    top: calc(var(--header-height) + 3.2rem);
+    bottom: auto;
+  }
+}
+
+.c-lisa_sound-icon {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6667rem;
+  height: 2.6667rem;
+  padding: 0.9rem;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transition: fill $duration $ease-out;
+  }
+
+  &.-on svg  { fill: var(--color); }
+  &.-off svg { fill: var(--color-bg); }
+
+  .-muted &.-on svg  { fill: var(--color-bg); }
+  .-muted &.-off svg { fill: var(--color); }
+}
+
+// ------------------------------------------------------------
+//  Back button
+// ------------------------------------------------------------
+.c-lisa_back {
+  position: fixed;
+  left: var(--grid-margin);
+  bottom: var(--grid-margin);
+  width: 2.6667rem;
+  height: 2.6667rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color);
+  color: var(--color-bg);
+  border-radius: 50%;
+  transform-origin: center center;
+  cursor: pointer;
+  z-index: $z-content;
+  transition: opacity $duration $ease-out, transform $duration $ease-out;
+
+  svg {
+    width: 45%;
+    height: 45%;
+    fill: currentColor;
+  }
+
+  &.v-enter-from,
+  &.v-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+// ------------------------------------------------------------
+//  Note modal (focus-trapped overlay)
+// ------------------------------------------------------------
+.c-lisa-note {
+  --color: #{$color-black};
+  --color-bg: #{$color-white};
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: $z-note;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: $color-black;
+    opacity: 0.4;
+  }
+
+  &:not(.is-active) {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  transition: visibility 0s linear 0s, opacity $duration $ease-out;
+
+  &:not(.is-active) {
+    transition: visibility 0s linear $duration-fast, opacity $duration-fast $ease-out;
+  }
+
+  &_content {
+    pointer-events: all;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    max-width: 720px;
+    max-height: 80vh;
+    overflow: auto;
+    color: var(--color);
+    background-color: var(--color-bg);
+    z-index: 10;
+    border-radius: 10px;
+    padding: spacing('medium') spacing('medium') spacing('big');
+  }
+
+  &_close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    z-index: 20;
+    cursor: pointer;
+
+    svg { width: 100%; height: 100%; fill: currentColor; }
+  }
+}
+
+// ------------------------------------------------------------
+//  Loader spinner
+// ------------------------------------------------------------
+.c-lisa_loading {
+  display: block;
+  width: 2em;
+  height: 2em;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  animation: lisaLoader 0.3s linear infinite;
+  border-radius: 50%;
+  margin: auto;
+}
+
+@keyframes lisaLoader {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes lisaCursor {
+  0%   { opacity: 1; }
+  49%  { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 0; }
+}

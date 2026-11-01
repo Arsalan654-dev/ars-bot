@@ -1,0 +1,139 @@
+// ============================================================
+//  Effects — shared 3D utilities, entrances, parallax depth
+// ============================================================
+
+// Depth context for children that tilt/lift
+.u-3d {
+  transform-style: preserve-3d;
+}
+
+.u-perspective {
+  perspective: 1000px;
+}
+
+// ------------------------------------------------------------
+//  Step entrance — rises out of depth with a slight tilt
+// ------------------------------------------------------------
+.c-lisa_main {
+  perspective: 1200px;
+  perspective-origin: 50% 30%;
+}
+
+.c-lisa-step {
+  transform-origin: 50% 0%;
+  animation: stepIn 0.6s $ease-out both;
+
+  &.default-leave-active,
+  &.backwards-leave-active,
+  &.backwards-enter-active {
+    animation: none;
+  }
+}
+
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 48px, -140px) rotateX(-7deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// ------------------------------------------------------------
+//  Buttons — 3D lift on hover, press-down on click
+// ------------------------------------------------------------
+.c-lisa-step_choices,
+.c-lisa-step_form {
+  perspective: 900px;
+}
+
+.c-lisa_button,
+.c-lisa_checkbox {
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 0);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0);
+  transition:
+    transform $duration $ease-out,
+    box-shadow $duration $ease-out,
+    background-color $duration $ease-out,
+    color $duration $ease-out,
+    border-color $duration $ease-out;
+
+  &:hover,
+  &:focus-visible {
+    transform: translate3d(0, -3px, 24px) rotateX(-6deg);
+    box-shadow:
+      0 18px 30px -16px rgba(0, 0, 0, 0.4),
+      0 4px 10px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    transform: translate3d(0, 0, 0) scale(0.97);
+    box-shadow: 0 2px 6px -3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// ------------------------------------------------------------
+//  Sound / back floating controls — gentle levitation
+// ------------------------------------------------------------
+.c-lisa_sound,
+.c-lisa_back {
+  transition:
+    transform $duration $ease-out,
+    opacity $duration $ease-out,
+    background-color $duration $ease-out;
+
+  &:hover {
+    transform: translate3d(0, -3px, 30px) scale(1.06);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
+// ------------------------------------------------------------
+//  Header links — micro 3D pop
+// ------------------------------------------------------------
+.c-header-menu_link,
+.c-header_cta,
+.c-header_logo_inner {
+  display: inline-block;
+  transition: transform $duration $ease-out;
+
+  &:hover {
+    transform: translate3d(0, -1px, 12px);
+  }
+}
+
+// ------------------------------------------------------------
+//  Menu links — depth stagger on open
+// ------------------------------------------------------------
+.c-menu_nav_link {
+  transition-property: transform, opacity;
+  opacity: 0;
+
+  html.has-menu-opened & {
+    opacity: 1;
+  }
+}
+
+// ------------------------------------------------------------
+//  Selection + reduced motion
+// ------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  .c-bot_frame,
+  .c-bot_shadow,
+  .c-bot_ring,
+  .c-bot_frame::before,
+  .c-lisa-step,
+  .c-scroll-hint {
+    animation: none !important;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

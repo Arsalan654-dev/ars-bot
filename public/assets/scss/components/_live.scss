@@ -1,0 +1,488 @@
+// ============================================================
+//  Live chat UI — real API-driven LISA bot page
+//  (full page + embedded widget mode)
+// ============================================================
+
+.c-live {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  padding: calc(var(--header-height) + 1rem) var(--grid-margin) 0;
+  z-index: $z-content;
+
+  @include tablet {
+    padding-top: 1rem;
+  }
+
+  &.-embedded {
+    height: 100%;
+    padding: 0;
+  }
+}
+
+// ------------------------------------------------------------
+//  Full page variant — clean chatbox card below the bot
+// ------------------------------------------------------------
+.c-live.-page {
+  height: auto;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1.3333rem;
+  background-color: var(--color-bg-card);
+  border: 1px solid color-mix(in srgb, var(--color) 8%, transparent);
+  border-radius: 1.3333rem;
+  box-shadow: 0 30px 70px -42px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+
+  @include tablet {
+    padding: 0 1rem;
+  }
+
+  .c-live_head {
+    margin: 0;
+    padding: 1.1333rem 0 0.9333rem;
+    max-width: none;
+  }
+
+  .c-live_feed {
+    height: clamp(260px, 36vh, 420px);
+    flex: none;
+    max-width: none;
+    padding: 0.5rem 0 1.1333rem;
+  }
+
+  .c-live_chips {
+    margin: 0 0 0.9333rem;
+    max-width: none;
+  }
+
+  .c-live_input {
+    margin: 0;
+    max-width: none;
+    padding-bottom: 1.1333rem;
+
+    @include tablet {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+
+  .c-live_chip,
+  .c-live_input input {
+    background-color: var(--color-bg-card);
+  }
+
+  .c-live_paused {
+    margin: 0;
+    padding: 4rem 2rem;
+  }
+}
+
+// ------------------------------------------------------------
+//  Bot header (avatar + name + status)
+// ------------------------------------------------------------
+.c-live_head {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 auto 1rem;
+  width: 100%;
+  max-width: 620px;
+
+  .-embedded & {
+    padding: 0.9rem 1rem 0.7rem;
+    margin: 0;
+    max-width: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color) 10%, transparent);
+    background-color: var(--color-bg);
+  }
+}
+
+.c-live_avatar {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-display;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .-embedded & {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+}
+
+.c-live_status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  border: 2px solid var(--color-bg);
+
+  &.-off { background-color: #ef4444; }
+}
+
+.c-live_name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+  .-embedded & { font-size: 0.9rem; }
+}
+
+.c-live_sub {
+  font-size: 0.75rem;
+  opacity: 0.55;
+}
+
+// ------------------------------------------------------------
+//  Feed — messages
+// ------------------------------------------------------------
+.c-live_feed {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 1rem 0 1.5rem;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  .-embedded & {
+    max-width: none;
+    padding: 0.9rem 0.9rem 1rem;
+  }
+}
+
+.c-live_msg {
+  display: flex;
+  max-width: 88%;
+  animation: liveMsgIn 0.4s $ease-out both;
+
+  &.-bot { align-self: flex-start; }
+  &.-user { align-self: flex-end; }
+
+  &_bubble {
+    position: relative;
+    border-radius: 18px;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    word-break: break-word;
+
+    .-bot & {
+      background-color: color-mix(in srgb, var(--color) 6%, transparent);
+      border-bottom-left-radius: 6px;
+    }
+
+    .-user & {
+      background-color: var(--color);
+      color: var(--color-bg);
+      border-bottom-right-radius: 6px;
+    }
+  }
+
+  &.-typing &_bubble {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 0.85rem 1rem;
+
+    i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+      opacity: 0.35;
+      animation: liveTyping 1.2s infinite;
+
+      &:nth-child(2) { animation-delay: 0.15s; }
+      &:nth-child(3) { animation-delay: 0.3s; }
+    }
+  }
+}
+
+@keyframes liveMsgIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes liveTyping {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+// ------------------------------------------------------------
+//  Order confirmation card
+// ------------------------------------------------------------
+.c-live_order {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 88%;
+  border: 1px solid #bbf7d0;
+  background-color: #f0fdf4;
+  color: #14532d;
+  border-radius: 14px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.9rem;
+  animation: liveMsgIn 0.4s $ease-out both;
+
+  strong { display: block; font-size: 1rem; margin-bottom: 2px; }
+}
+
+// ------------------------------------------------------------
+//  Quick chips
+// ------------------------------------------------------------
+.c-live_chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto 0.9rem;
+
+  .-embedded & {
+    max-width: none;
+    padding: 0 0.9rem;
+  }
+}
+
+.c-live_chip {
+  border: 1px solid color-mix(in srgb, var(--color) 18%, transparent);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: var(--color-bg);
+  transition: background-color $duration $ease-out, color $duration $ease-out,
+    transform $duration $ease-out;
+
+  &:hover {
+    background-color: var(--color);
+    color: var(--color-bg);
+    transform: translate3d(0, -2px, 12px);
+  }
+}
+
+// ------------------------------------------------------------
+//  Input bar
+// ------------------------------------------------------------
+.c-live_input {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding-bottom: max(1.2rem, env(safe-area-inset-bottom));
+  position: relative;
+
+  .-embedded & {
+    max-width: none;
+    padding: 0.7rem 0.9rem max(0.7rem, env(safe-area-inset-bottom));
+    border-top: 1px solid color-mix(in srgb, var(--color) 10%, transparent);
+    background-color: var(--color-bg);
+  }
+
+  input {
+    flex: 1;
+    border: 1px solid color-mix(in srgb, var(--color) 22%, transparent);
+    border-radius: 999px;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.95rem;
+    background-color: var(--color-bg);
+    color: var(--color);
+    outline: none;
+    transition: border-color $duration $ease-out;
+
+    &:focus { border-color: var(--color); }
+    &::placeholder { opacity: 0.4; }
+  }
+}
+
+.c-live_send {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform $duration $ease-out, opacity $duration $ease-out;
+
+  &:hover { transform: translate3d(0, -2px, 16px) scale(1.05); }
+  &:active { transform: scale(0.94); }
+  &:disabled { opacity: 0.4; pointer-events: none; }
+
+  svg { width: 20px; height: 20px; fill: currentColor; }
+}
+
+// ------------------------------------------------------------
+//  About panel (public bot page)
+// ------------------------------------------------------------
+.c-live_about-toggle {
+  position: fixed;
+  top: calc(var(--header-height) + 1rem);
+  right: var(--grid-margin);
+  z-index: $z-content + 1;
+  border: 1px solid color-mix(in srgb, var(--color) 22%, transparent);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.8rem;
+  background-color: var(--color-bg);
+  cursor: pointer;
+  transition: background-color $duration $ease-out, color $duration $ease-out;
+
+  &:hover { background-color: var(--color); color: var(--color-bg); }
+
+  .-embedded & { display: none; }
+}
+
+.c-live_about {
+  position: fixed;
+  inset: 0;
+  z-index: $z-note;
+  background-color: color-mix(in srgb, var(--color) 40%, transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $duration $ease-out, visibility 0s linear $duration;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity $duration $ease-out;
+  }
+
+  &_panel {
+    width: 100%;
+    max-width: 760px;
+    max-height: 78vh;
+    overflow-y: auto;
+    background-color: var(--color-bg);
+    color: var(--color);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 2rem var(--grid-margin) 3rem;
+    transform: translateY(24px);
+    transition: transform $duration $ease-out;
+
+    .is-open & { transform: none; }
+  }
+
+  &_close {
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--color);
+    color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  h2 {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+
+  &_section {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color) 12%, transparent);
+
+    &:last-child { border-bottom: 0; }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+
+    img,
+    iframe,
+    video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 0.8rem;
+      display: block;
+    }
+
+    iframe,
+    video {
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Serving paused notice
+// ------------------------------------------------------------
+.c-live_paused {
+  margin: auto;
+  text-align: center;
+  max-width: 420px;
+  padding: 2rem;
+
+  h2 {
+    font-family: $font-display;
+    font-weight: 300;
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    opacity: 0.7;
+  }
+}

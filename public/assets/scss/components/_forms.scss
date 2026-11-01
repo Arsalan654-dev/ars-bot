@@ -1,0 +1,177 @@
+// ============================================================
+//  Forms — floating labels, underline inputs, checkboxes,
+//  select, error chips
+// ============================================================
+
+.c-form_item {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  position: relative;
+  margin-bottom: 1.3333rem;
+}
+
+.c-form_floating {
+  width: 100%;
+  position: relative;
+  padding-top: 0.5em;
+}
+
+.c-form_label {
+  display: block;
+  opacity: 0.5;
+}
+
+.c-form_floating .c-form_label {
+  position: absolute;
+  padding: calc(0.3333rem + 0.5em) 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  transition: transform $duration $ease-out;
+  pointer-events: none;
+}
+
+.c-form_input,
+.c-form_textarea,
+.c-lisa_select {
+  padding: 0.3333rem 0;
+  border-bottom: 1px solid var(--color);
+  transition: border-color $duration $ease-out;
+  background: transparent;
+
+  &::placeholder { color: transparent; }
+
+  &:focus { border-color: var(--color); }
+
+  &.-invalid { border-color: $color-crimson; }
+}
+
+.c-form_textarea {
+  min-height: 6.6667rem;
+}
+
+// Floating label shrink when filled/focused
+.c-form_floating {
+  .c-form_input:not(:placeholder-shown) ~ .c-form_label,
+  .c-form_textarea:not(:placeholder-shown) ~ .c-form_label {
+    transform: scale(0.75) translateY(-1.5em);
+  }
+}
+
+.c-form_input-errors {
+  position: absolute;
+  top: 100%;
+  background-color: $color-crimson;
+  color: $color-white;
+  display: inline-flex;
+  flex-direction: column;
+  margin-top: 0;
+  font-size: 90%;
+  padding: 0.1em 0.4em;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: clip-path $duration $ease-out;
+  z-index: 1;
+}
+
+.c-form_input-errors.is-hidden {
+  clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+}
+
+// ------------------------------------------------------------
+//  Checkboxes — pill with checkmark
+// ------------------------------------------------------------
+.c-lisa_checkboxes {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.3333rem 0;
+
+  legend {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 0.6667rem;
+  }
+
+  > div {
+    position: relative;
+  }
+}
+
+.c-lisa_checkbox {
+  input[type='checkbox'] {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+  }
+
+  &.-checked {
+    &::after {
+      content: '';
+      position: absolute;
+      right: 1.2em;
+      width: 0.6em;
+      height: 0.35em;
+      border-left: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg) translateY(-20%);
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Select
+// ------------------------------------------------------------
+.c-lisa_select-wrapper {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0.4em;
+    top: 50%;
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+    transition: transform 0.15s $ease-out;
+  }
+
+  &:hover::after {
+    transform: translateY(-80%) rotate(45deg);
+  }
+}
+
+.c-lisa_select {
+  cursor: pointer;
+  padding-right: 2.6667rem;
+  width: 100%;
+}
+
+// ------------------------------------------------------------
+//  File drop area
+// ------------------------------------------------------------
+.c-form_dropzone {
+  width: 100%;
+  border: 1px dashed color-mix(in srgb, var(--color) 40%, transparent);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color $duration $ease-out, background-color $duration $ease-out;
+
+  &:hover {
+    border-color: var(--color);
+    background-color: color-mix(in srgb, var(--color) 4%, transparent);
+  }
+
+  u { text-decoration: underline; cursor: pointer; }
+
+  input[type='file'] { display: none; }
+}
