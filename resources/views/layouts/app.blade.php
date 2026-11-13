@@ -20,7 +20,7 @@
             @if ($logo)
                 <img src="{{ asset('storage/'.$logo) }}" alt="Logo" class="h-7 w-7 rounded object-cover">
             @else
-                <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="ARS Bot" class="h-7 w-7 object-contain">
+                <img src="{{ asset('assets/images/logo.png') }}?v=4" alt="ARS Bot" class="h-7 w-7 object-contain">
             @endif
             <span class="truncate text-sm font-semibold text-white">
                 {{ \App\Models\Setting::get('crm_brand_name', config('app.name')) }}

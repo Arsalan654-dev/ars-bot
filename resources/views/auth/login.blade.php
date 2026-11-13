@@ -9,7 +9,7 @@
 <body class="flex h-full items-center justify-center bg-[#0F172A] px-4">
     <div class="w-full max-w-sm">
         <div class="mb-8 text-center">
-            <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="ARS Bot" class="mx-auto mb-4 h-14 w-14 object-contain">
+            <img src="{{ asset('assets/images/logo.png') }}?v=4" alt="ARS Bot" class="mx-auto mb-4 h-14 w-14 object-contain">
             <h1 class="text-xl font-semibold text-white">{{ config('app.name') }}</h1>
             <p class="mt-1 text-sm text-slate-400">Manage your assistant, clients and orders.</p>
         </div>

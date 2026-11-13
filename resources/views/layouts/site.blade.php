@@ -6,11 +6,11 @@
     <title>@yield('title') — {{ config('app.name') }}</title>
     <meta name="description" content="@yield('description', 'ARS Bot - AI assistants, automation and CRM for modern businesses.')">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=3">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=6">
 
     <script>
         document.documentElement.classList.remove('has-no-js');
@@ -28,7 +28,7 @@
             </div>
             <div class="c-preloader_logo">
                 <div class="c-preloader_wordmark">
-                    <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="" class="c-preloader_logo_img">
+                    <img src="{{ asset('assets/images/logo.png') }}?v=4" alt="" class="c-preloader_logo_img">
                     {{ config('app.name') }}
                 </div>
             </div>
@@ -42,7 +42,7 @@
 <header>
     <div class="c-header" data-header="header">
         <a href="{{ route('home') }}" class="c-header_logo" aria-label="{{ config('app.name') }} — home">
-            <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="" class="c-header_logo_img">
+            <img src="{{ asset('assets/images/logo.png') }}?v=4" alt="" class="c-header_logo_img">
             <span class="c-header_logo_inner" data-hover-shuffle>{{ config('app.name') }}</span>
         </a>
 
