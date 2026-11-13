@@ -1,5 +1,5 @@
 // ============================================================
-//  LISA Live — API-driven chat engine for the public bot page
+//  ARS Bot Live - API-driven chat engine for the public bot page
 //  Reuses: typewriter dialog, voice (Web Speech), ambient pad,
 //  canvas visualizer, bot sprite (bot3d.js).
 // ============================================================
@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  const CONFIG = window.LISA_CONFIG || {};
+  const CONFIG = window.ARS_BOT_CONFIG || window.LISA_CONFIG || {};
   const qs = (sel, ctx) => (ctx || document).querySelector(sel);
   const qsa = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 

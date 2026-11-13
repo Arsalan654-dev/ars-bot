@@ -1,7 +1,7 @@
 @extends('layouts.site')
 
 @section('title', 'Work')
-@section('description', 'Selected projects by Cyprus Digital Solutions — branding, web and digital experiences.')
+@section('description', 'Selected projects by ARS Bot — branding, web and digital experiences.')
 
 @section('content')
 <main class="c-page">

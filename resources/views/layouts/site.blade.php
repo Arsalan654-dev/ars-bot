@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@yield('title') — {{ config('app.name') }}</title>
-    <meta name="description" content="@yield('description', 'Cyprus Digital Solutions — innovative digital solutions for your brand.')">
+    <meta name="description" content="@yield('description', 'ARS Bot - AI assistants, automation and CRM for modern businesses.')">
 
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,7 +75,7 @@
             <div class="c-menu_footer">
                 <a href="#" class="c-menu_langswitcher">Fran&ccedil;ais</a>
                 <span class="c-menu_location">
-                    <span class="u-screen-reader-text">Cyprus</span>
+                    <span class="u-screen-reader-text">ARS Bot</span>
                     <span aria-hidden="true">&#127464;&#127486;</span>
                 </span>
             </div>
@@ -95,7 +95,7 @@
     <div class="c-page-footer__meta js-reveal">
         <div>
             <span class="c-page-footer__label">Email</span>
-            <a href="mailto:cyprussolutionss@gmail.com">cyprussolutionss@gmail.com</a>
+            <a href="mailto:jaffri.arsalan786@gmail.com">jaffri.arsalan786@gmail.com</a>
         </div>
         <div>
             <span class="c-page-footer__label">Phone</span>
@@ -104,9 +104,9 @@
         <div>
             <span class="c-page-footer__label">Social</span>
             <span class="c-page-footer__socials">
-                <a href="https://www.linkedin.com/company/cyprus-digital-solutions/" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://www.facebook.com/share/1GU6q9ASxn/" target="_blank" rel="noopener">Facebook</a>
-                <a href="https://www.instagram.com/cyprusdigitalsolutions" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://linkedin.com/in/arsalan-jaffri-3b796b370" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://www.facebook.com/1115264175012492" target="_blank" rel="noopener">Facebook</a>
+                <a href="https://www.instagram.com/arsalan85890/" target="_blank" rel="noopener">Instagram</a>
             </span>
         </div>
     </div>
@@ -114,7 +114,7 @@
     <div class="c-page-footer__bottom">
         <span>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</span>
         <a href="{{ route('home') }}" class="c-page-footer__cta" data-cursor="hover">
-            Talk to {{ $bot?->bot_name ?? 'L.I.S.A' }} &rarr;
+            Talk to {{ $bot?->bot_name ?? 'ARS Bot' }} &rarr;
         </a>
     </div>
 </footer>

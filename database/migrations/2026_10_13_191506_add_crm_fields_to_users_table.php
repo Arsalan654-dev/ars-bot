@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('api_key', 64)->nullable()->unique();
             $table->string('avatar_path')->nullable();
             $table->string('logo_path')->nullable();
-            $table->string('bot_name')->default('L.I.S.A');
+            $table->string('bot_name')->default('ARS Bot');
             $table->string('bot_color', 16)->default('#000000');
             $table->string('bot_theme', 32)->default('lisa');
             $table->text('knowledge_base')->nullable(); // free-form knowledge for AI brain

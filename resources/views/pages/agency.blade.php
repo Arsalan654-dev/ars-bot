@@ -1,7 +1,7 @@
 @extends('layouts.site')
 
 @section('title', 'Agency')
-@section('description', 'About Cyprus Digital Solutions — a creative digital agency crafting impactful digital experiences.')
+@section('description', 'About ARS Bot — a creative digital agency crafting impactful digital experiences.')
 
 @section('content')
 <main class="c-page">
@@ -17,7 +17,7 @@
             </p>
             <div class="c-page-hero__meta">
                 <span>Creative Digital Agency</span>
-                <span>Cyprus &middot; Worldwide</span>
+                <span>Pakistan &middot; Worldwide</span>
             </div>
         </div>
     </section>

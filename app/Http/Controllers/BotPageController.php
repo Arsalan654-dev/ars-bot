@@ -37,8 +37,12 @@ class BotPageController extends Controller
 
     private function renderBot(User $bot, bool $embedded): View
     {
+        $companyLine = $bot->company && $bot->company !== $bot->bot_name
+            ? ' for '.$bot->company
+            : '';
+
         $welcome = $bot->botIsServing()
-            ? "Hi, I'm {$bot->bot_name} — the assistant for ".($bot->company ?: $bot->name).'. How can I help you today?'
+            ? "Hi, I'm {$bot->bot_name}{$companyLine}. How can I help you today?"
             : null;
 
         return view('bot.page', [

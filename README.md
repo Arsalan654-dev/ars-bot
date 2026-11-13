@@ -1,4 +1,4 @@
-# LISA Bot Platform — Full-Stack SaaS
+# ARS Bot Platform — Full-Stack SaaS
 
 Ek complete multi-tenant bot platform: **Super Admin CRM + Client CRM + AI bot + Payments + Invoices + API/widget**.
 Laravel 13 (PHP 8.5) + SQLite + Tailwind 4 + vanilla JS bot frontend.
@@ -50,11 +50,7 @@ DB_PASSWORD=
 
 Phir `php artisan migrate --seed` chalayein.
 
-**Seeded accounts:**
-
-| Email | Password | Role |
-|---|---|---|
-| `admin@lisa.test` | `password` | Super Admin |
+**Seeded account:** set `ADMIN_PASSWORD` in `.env` before running `php artisan migrate --seed`; the admin email is `admin@arsbot.test`.
 
 **AI brain (Google AI Studio / Gemini):** Admin → Settings mein set hota hai:
 
@@ -74,9 +70,9 @@ MAIL_MAILER=smtp
 MAIL_SCHEME=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
-MAIL_USERNAME="jaffri.arsalan786@gmail.com"
+MAIL_USERNAME="${MAIL_USERNAME}"
 MAIL_PASSWORD="your-gmail-app-password"
-MAIL_FROM_ADDRESS="jaffri.arsalan786@gmail.com"
+MAIL_FROM_ADDRESS="${MAIL_FROM_ADDRESS}"
 ```
 
 Ye emails bhejta hai: user credentials + payment link, order invoice (PDF attach), new client notifications, payment reminders.
@@ -113,7 +109,7 @@ Ye emails bhejta hai: user credentials + payment link, order invoice (PDF attach
 - `/embed/{key}` — compact iframe UI
 - `/widget.js?key=...` — embeddable script: floating launcher + panel **+ optional nav link** (`data-nav-link="true"`)
 - API: `POST /api/bot/chat` (X-Api-Key) → `{ reply, conversation_id, order_confirmed, order_number }`
-- Bot frontend: LISA-style live chat — typewriter, voice (Web Speech), ambient pad, visualizer, 3D sprite avatar (bot3d.js)
+- Bot frontend: ARS Bot-style live chat — typewriter, voice (Web Speech), ambient pad, visualizer, 3D sprite avatar (bot3d.js)
 
 ### Backend engine
 - `AiService` — OpenAI-compatible chat + structured extraction, settings-driven

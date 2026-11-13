@@ -1,5 +1,5 @@
 // ============================================================
-//  LISA — conversational engine
+//  ARS Bot - conversational engine
 //  Typewriter dialog (scramble-in), step choreography,
 //  forms, history/back, progress bar, speech synthesis voice.
 // ============================================================
@@ -297,7 +297,7 @@
   };
 
   // ---------------------------------------------------------
-  //  LISA engine
+  //  ARS Bot engine
   // ---------------------------------------------------------
   const Lisa = {
     el: null,

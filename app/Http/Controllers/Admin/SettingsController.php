@@ -19,7 +19,7 @@ class SettingsController extends Controller
                 'ai_base_url' => Setting::get('ai_base_url', 'https://api.openai.com/v1'),
                 'ai_model' => Setting::get('ai_model', 'gpt-4o-mini'),
                 'ai_image_model' => Setting::get('ai_image_model', 'gemini-nano-banana-2.1'),
-                'crm_brand_name' => Setting::get('crm_brand_name', 'Cyprus Digital Solutions'),
+                'crm_brand_name' => Setting::get('crm_brand_name', 'ARS Bot'),
                 'crm_brand_color' => Setting::get('crm_brand_color', '#0B5FFF'),
                 'crm_logo_path' => Setting::get('crm_logo_path'),
             ],

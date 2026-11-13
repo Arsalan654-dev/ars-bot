@@ -100,7 +100,7 @@
 
                     <div>
                         <label class="mb-1 block text-xs font-medium text-neutral-500">Account name</label>
-                        <input name="name" placeholder="e.g. Stripe Sandbox — Cyprus" required
+                        <input name="name" placeholder="e.g. Stripe Sandbox - Global" required
                                class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm">
                     </div>
 

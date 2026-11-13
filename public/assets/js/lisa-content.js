@@ -1,5 +1,5 @@
 // ============================================================
-//  LISA — conversation content
+//  ARS Bot - conversation content
 //  A step-based dialog engine. Each step defines:
 //    progress  : 0..1 value for the bottom bar
 //    next      : slug of the following step
@@ -18,9 +18,9 @@ window.LISA_CONTENT = {
     compact: true,
     autoAdvance: 3200,
     dialog: [
-      'Hi there, I am L.I.S.A —<br>Locomotive\u2019s Interactive Super Assistant',
-      'Oh, hi! I\u2019m L.I.S.A, your trusty (and slightly opinionated) assistant at Locomotive.',
-      'I\u2019m L.I.S.A, Locomotive\u2019s Interactive Super Assistant. Basically, I run this place.',
+      'Hi there, I am ARS Bot —<br>ARS Bot\u2019s Interactive Super Assistant',
+      'Oh, hi! I\u2019m ARS Bot, your trusty (and slightly opinionated) assistant at ARS Bot.',
+      'I\u2019m ARS Bot, ARS Bot\u2019s Interactive Super Assistant. Basically, I run this place.',
     ],
   },
 
@@ -169,7 +169,7 @@ window.LISA_CONTENT = {
     progress: 1,
     compact: true,
     dialog: [
-      'Done and done! Your brief has landed safely in human hands. Expect a reply from an actual Locomotive human very soon.',
+      'Done and done! Your brief has landed safely in human hands. Expect a reply from an actual ARS Bot human very soon.',
       'Sent! I handed everything off to the team. They don\u2019t know it yet, but they\u2019re already excited.',
     ],
     choices: [

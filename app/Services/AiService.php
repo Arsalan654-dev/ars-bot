@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * AI brain for LISA bots.
+ * AI brain for ARS Bot instances.
  *
  * Works with any OpenAI-compatible chat completions endpoint
  * (OpenAI, Groq, DeepSeek, OpenRouter, Together, local vLLM, ...).

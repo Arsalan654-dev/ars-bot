@@ -60,19 +60,25 @@ class DatabaseSeeder extends Seeder
 
     private function seedSuperAdmin(): User
     {
+        $adminPassword = env('ADMIN_PASSWORD');
+
+        if (! is_string($adminPassword) || $adminPassword === '') {
+            throw new \RuntimeException('Set ADMIN_PASSWORD in .env before seeding.');
+        }
+
         return User::query()->updateOrCreate(
-            ['email' => 'admin@lisa.test'],
+            ['email' => 'admin@arsbot.test'],
             [
                 'name' => 'Platform Owner',
-                'password' => Hash::make(env('ADMIN_PASSWORD') ?: 'password'),
+                'password' => Hash::make($adminPassword),
                 'role' => User::ROLE_SUPER_ADMIN,
-                'company' => 'Cyprus Digital Solutions',
+                'company' => 'ARS Bot',
                 'is_paid' => true,
                 'paid_at' => now(),
                 'bot_active' => true,
                 'api_key' => User::generateApiKey(),
-                'bot_name' => 'L.I.S.A',
-                'bot_color' => '#0B5FFF',
+                'bot_name' => 'ARS Bot',
+                'bot_color' => '#22C55E',
                 'subscription_plan' => 'lifetime',
                 'subscription_ends_at' => null,
             ],
@@ -84,8 +90,8 @@ class DatabaseSeeder extends Seeder
         Setting::put('ai_base_url', Setting::get('ai_base_url') ?: 'https://generativelanguage.googleapis.com/v1beta/openai');
         Setting::put('ai_model', Setting::get('ai_model') ?: 'gemini-flash-lite-latest');
         Setting::put('ai_api_key', Setting::get('ai_api_key') ?: (string) env('AI_API_KEY', ''));
-        Setting::put('crm_brand_name', 'Cyprus Digital Solutions');
-        Setting::put('crm_brand_color', '#0B5FFF');
+        Setting::put('crm_brand_name', 'ARS Bot');
+        Setting::put('crm_brand_color', '#22C55E');
     }
 
     private function seedPageSections(): void
@@ -100,7 +106,7 @@ class DatabaseSeeder extends Seeder
             ['work', 'My Local Chippy', 'Food & Beverage / Ordering', 'A local food brand with online ordering, mouth-watering visuals and a menu experience that sells.', 'page-sections/project-my-local-chippy.png', null, 6],
 
             // -------- AGENCY --------
-            ['agency', 'Innovative solutions for the digital world', 'Who we are', "At our Creative Digital Agency, we bring your ideas to life by crafting engaging, impactful digital experiences that captivate audiences and drive results.\n\nFrom innovative web design to compelling content and cutting-edge digital strategies — we are the partner behind brands that grow.", 'page-sections/why-choose-cyprus-digital-solutions.jpg', null, 1],
+            ['agency', 'Innovative solutions for the digital world', 'Who we are', "At our Creative Digital Agency, we bring your ideas to life by crafting engaging, impactful digital experiences that captivate audiences and drive results.\n\nFrom innovative web design to compelling content and cutting-edge digital strategies — we are the partner behind brands that grow.", 'page-sections/why-choose-ars-bot.jpg', null, 1],
             ['agency', 'Our digital services to grow your brand', 'What we do', "Custom Branding — cohesive visual identities that build memorable brands.\nWebsite Design — fast, beautiful sites that convert visitors into customers.\nDigital Marketing — communities and campaigns that lead to conversions.\nStrategy Consulting — positioning, research and roadmaps that work.\nAnalytics & Reporting — data-driven decisions, measurable results.\nCreative Content Production — visual hooks that cut through the noise.", null, null, 2],
             ['agency', 'Expertise that drives digital success', 'Results', "+60% organic traffic by optimizing websites for search engines.\n+30% rise in revenue as more visitors convert into paying customers.\nSocial Media Management, E-commerce Solutions and everything in between — designed to perform.", null, null, 3],
             ['agency', 'Watch how we work', 'Showreel', 'A quick look at the craft, the process and the people behind our projects.', null, 'storage/page-sections/cds-showreel.mp4', 4],
@@ -130,11 +136,11 @@ class DatabaseSeeder extends Seeder
     private function seedKnowledgeBase(User $admin): void
     {
         $entries = [
-            ['About Cyprus Digital Solutions', 'text', 'Cyprus Digital Solutions is a creative digital agency. We bring ideas to life by crafting engaging, impactful digital experiences that captivate audiences and drive results. Our services cover branding, website design, digital marketing, strategy consulting, analytics and creative content production.'],
+            ['About ARS Bot', 'text', 'ARS Bot is a creative digital agency. We bring ideas to life by crafting engaging, impactful digital experiences that captivate audiences and drive results. Our services cover branding, website design, digital marketing, strategy consulting, analytics and creative content production.'],
             ['Services we offer', 'service', "Custom Branding & Identity — cohesive visual identities that build memorable brands.\nWebsite Design & Development — fast, beautiful, conversion-focused websites.\nDigital Marketing — campaigns and communities that drive conversions.\nStrategy Consulting — positioning, research and digital roadmaps.\nAnalytics & Reporting — data-driven decisions and measurable results.\nCreative Content Production — visual content that demands attention.\nSocial Media Management — consistent, engaging brand voice across platforms.\nE-commerce Solutions — seamless online shopping experiences."],
             ['Our projects', 'text', 'Recent projects: Meer Official (fashion e-commerce), My Delivery Partner (delivery platform), Kahani Apparel (fashion brand), GAB Trading (corporate web), Pick My Drop (delivery app), My Local Chippy (food ordering). See the Work page for details.'],
             ['Why choose us', 'faq', 'Data-driven approach: we use insights to make informed decisions. Competitive pricing: top-quality services at great value. Ethical business practices: the highest level of professionalism in all dealings.'],
-            ['Contact information', 'text', "Email: cyprussolutionss@gmail.com\nPhone / WhatsApp: +92 330 3914554\nSocial: LinkedIn (cyprus-digital-solutions), Facebook, Instagram (@cyprusdigitalsolutions).\nWe reply within 1 business day."],
+            ['Contact information', 'text', "Email: jaffri.arsalan786@gmail.com\nPhone / WhatsApp: +92 330 3914554\nSocial: LinkedIn (arsalan-jaffri-3b796b370), Facebook, Instagram (@arsalan85890).\nWe reply within 1 business day."],
             ['How to start a project', 'faq', 'Share your name, company, project type (branding / website / marketing), budget range, timeline and a short brief. We reply with next steps and a free quote.'],
             ['Pricing approach', 'faq', 'Every project is quoted individually based on scope. We offer competitive pricing for top-quality work — get a free quote by sharing your requirements. Typical website projects start from a few hundred dollars; branding and full campaigns are quoted per scope.'],
             ['Payment terms', 'policy', 'Projects are typically billed 50% to start and 50% on delivery. Larger projects can be split into milestones. Invoices are sent by email.'],

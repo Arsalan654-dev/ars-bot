@@ -1,13 +1,13 @@
-# L.I.S.A — Conversational Frontend Mirror
+# ARS Bot — Conversational Frontend Mirror
 
-Locomotive ke L.I.S.A (Interactive Super Assistant) experience ka **original recreation** —
+ARS Bot ke ARS Bot (Interactive Super Assistant) experience ka **original recreation** —
 poora frontend (HTML + SCSS + vanilla JS), apna likha hua code, koi build-bundler nahi.
 
 ## Pages
 
 | Page | File | Kya hai |
 |---|---|---|
-| **L.I.S.A** | `index.html` | Conversational experience + 3D bot avatar |
+| **ARS Bot** | `index.html` | Conversational experience + 3D bot avatar |
 | **Work** | `work.html` | Project grid + marquee + reveal animations |
 | **Agency** | `agency.html` | Capability cards + story sections |
 | **Careers** | `careers.html` | Job list + perks + apply CTAs |
@@ -52,7 +52,7 @@ assets/video/               — source video for the bot sprite frames
 
 ## Features
 
-### L.I.S.A (index.html)
+### ARS Bot (index.html)
 - **3D Bot avatar** — video se JS canvas ke zariye frames extract hote hain (16–40),
   sprite-sheet ban ke CSS `steps()` animation se loop karta hai; video tag DOM mein nahi.
 - **Cursor-follow motion** — bot mouse ke saath `rotateX/rotateY` tilt + parallax slide

@@ -169,8 +169,8 @@
   // ---------------------------------------------------------
   const Preloader = {
     COLUMNS: [
-      ['Digital', 'Digital-First', 'Digital-First Design', 'Digital-First Design Agency'],
-      ['Based', 'Based in', 'Based in Montreal', 'Based in Montreal, Canada'],
+      ['AI', 'AI Assistant', 'AI Assistant &', 'AI Assistant & CRM'],
+      ['Built', 'Built for', 'Built for modern', 'Built for modern business'],
     ],
 
     bindTilt() {

@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <label class="mb-1 block text-sm font-medium">Bot name</label>
-                    <input name="bot_name" value="{{ old('bot_name', 'L.I.S.A') }}" class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-neutral-900">
+                    <input name="bot_name" value="{{ old('bot_name', 'ARS Bot') }}" class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-neutral-900">
                 </div>
             </div>
         </div>

@@ -12,21 +12,21 @@
 
 <div class="flex min-h-full">
     {{-- ============ Sidebar ============ --}}
-    <aside class="fixed inset-y-0 left-0 z-30 flex w-64 -translate-x-full flex-col border-r border-neutral-200 bg-white transition-transform lg:translate-x-0" id="sidebar">
-        <div class="flex h-16 items-center gap-2 border-b border-neutral-200 px-5">
+    <aside class="fixed inset-y-0 left-0 z-30 flex w-64 -translate-x-full flex-col border-r border-slate-800 bg-[#0F172A] text-slate-100 transition-transform lg:translate-x-0" id="sidebar">
+        <div class="flex h-16 items-center gap-2 border-b border-white/10 px-5">
             @php
                 $logo = \App\Models\Setting::get('crm_logo_path');
             @endphp
             @if ($logo)
                 <img src="{{ asset('storage/'.$logo) }}" alt="Logo" class="h-7 w-7 rounded object-cover">
             @else
-                <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="Logo" class="h-7 w-7 object-contain">
+                <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="ARS Bot" class="h-7 w-7 object-contain">
             @endif
-            <span class="truncate text-sm font-semibold">
+            <span class="truncate text-sm font-semibold text-white">
                 {{ \App\Models\Setting::get('crm_brand_name', config('app.name')) }}
             </span>
             @if (auth()->user()->isSuperAdmin())
-                <span class="ml-auto rounded bg-neutral-900 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Admin</span>
+                <span class="ml-auto rounded bg-[#22C55E] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#0F172A]">Admin</span>
             @endif
         </div>
 
@@ -74,23 +74,23 @@
             @endif
         </nav>
 
-        <div class="border-t border-neutral-200 p-3 text-sm">
-            <div class="mb-2 truncate px-2 text-xs text-neutral-500">{{ auth()->user()->email }}</div>
+        <div class="border-t border-white/10 p-3 text-sm">
+            <div class="mb-2 truncate px-2 text-xs text-slate-400">{{ auth()->user()->email }}</div>
             @if (! auth()->user()->isSuperAdmin())
                 @if (auth()->user()->hasActiveSubscription())
-                    <div class="mx-2 mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">
+                    <div class="mx-2 mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
                         <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                         {{ ucfirst(auth()->user()->subscription_plan ?? 'paid') }} · renews {{ auth()->user()->subscription_ends_at?->format('M j') }}
                     </div>
                 @else
-                    <div class="mx-2 mb-2 inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-700">
+                    <div class="mx-2 mb-2 inline-flex items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[11px] font-medium text-red-300">
                         <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> Not paid
                     </div>
                 @endif
             @endif
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button class="w-full rounded-lg px-2 py-1.5 text-left text-neutral-600 hover:bg-neutral-100">Log out</button>
+                <button class="w-full rounded-lg px-2 py-1.5 text-left text-slate-300 hover:bg-white/10 hover:text-white">Log out</button>
             </form>
         </div>
     </aside>

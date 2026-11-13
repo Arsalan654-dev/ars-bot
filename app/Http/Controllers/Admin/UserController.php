@@ -73,7 +73,7 @@ class UserController extends Controller
             'password' => Hash::make($password),
             'role' => User::ROLE_USER,
             'api_key' => User::generateApiKey(),
-            'bot_name' => $validated['bot_name'] ?? 'L.I.S.A',
+            'bot_name' => $validated['bot_name'] ?? 'ARS Bot',
             'bot_active' => false,
             'is_paid' => false,
             'plan_label' => $validated['plan_label'],

@@ -36,7 +36,7 @@
             <div class="sm:col-span-2">
                 <label class="mb-1 block text-sm font-medium">Theme</label>
                 <select name="bot_theme" class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm">
-                    <option value="lisa" @selected($user->bot_theme === 'lisa')>Light (LISA)</option>
+                    <option value="lisa" @selected($user->bot_theme === 'lisa')>Default (ARS Bot)</option>
                     <option value="dark" @selected($user->bot_theme === 'dark')>Dark</option>
                 </select>
             </div>

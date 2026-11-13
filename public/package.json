@@ -1,8 +1,8 @@
 {
-  "name": "lisa-mirror",
+  "name": "ars-bot-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "L.I.S.A conversational frontend — original recreation with SCSS + vanilla JS",
+  "description": "ARS Bot conversational frontend",
   "scripts": {
     "watch": "sass assets/scss/main.scss assets/css/main.css --watch --no-source-map",
     "build": "sass assets/scss/main.scss assets/css/main.css --no-source-map --style=compressed",

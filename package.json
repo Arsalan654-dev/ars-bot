@@ -1,4 +1,6 @@
 {
+    "name": "ars-bot",
+    "description": "ARS Bot — AI assistant and CRM platform",
     "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",

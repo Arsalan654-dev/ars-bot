@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ $bot->bot_name }} — {{ $bot->company ?: $bot->name }}</title>
-    <meta name="description" content="Chat with {{ $bot->bot_name }}, the AI assistant for {{ $bot->company ?: $bot->name }}.">
+    <title>{{ $bot->bot_name }}{{ $bot->company && $bot->company !== $bot->bot_name ? ' — '.$bot->company : ' — AI Assistant & CRM' }}</title>
+    <meta name="description" content="Chat with {{ $bot->bot_name }}{{ $bot->company && $bot->company !== $bot->bot_name ? ' at '.$bot->company : '' }}, your AI assistant.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=6">
 
     <style>
         :root {
             {{ $bot->bot_color ? '--bot-accent: '.e($bot->bot_color).';' : '' }}
         }
-        .c-live_send, .c-live_msg.-user .c-live_msg_bubble { background-color: {{ e($bot->bot_color ?: '#000000') }}; }
-        .c-live_avatar { background-color: {{ e($bot->bot_color ?: '#000000') }}; }
+        .c-live_send, .c-live_msg.-user .c-live_msg_bubble { background-color: {{ e($bot->bot_color ?: '#22C55E') }}; }
+        .c-live_avatar { background-color: {{ e($bot->bot_color ?: '#22C55E') }}; }
     </style>
 
     <script>
         document.documentElement.classList.remove('has-no-js');
-        window.LISA_CONFIG = {
+        window.ARS_BOT_CONFIG = {
             apiKey: @json($bot->api_key),
             chatUrl: @json(url('/api/bot/chat')),
             name: @json($bot->bot_name),
@@ -45,7 +45,7 @@
                 </div>
                 <div class="c-preloader_logo">
                     <div class="c-preloader_wordmark">
-                        <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="" class="c-preloader_logo_img">
+                        <img src="{{ asset('assets/images/ars-bot-icon.png') }}?v=4" alt="" class="c-preloader_logo_img">
                         {{ $bot->company ?: config('app.name') }}
                     </div>
                 </div>
@@ -59,7 +59,7 @@
     <header>
         <div class="c-header -bot">
             <a href="{{ route('home') }}" class="c-header_logo" aria-label="Home">
-                <img src="{{ asset('assets/images/logo.png') }}?v=3" alt="" class="c-header_logo_img">
+                <img src="{{ asset('assets/images/ars-bot-icon.png') }}?v=4" alt="" class="c-header_logo_img">
                 <span class="c-header_logo_inner" data-hover-shuffle>{{ $bot->company ?: config('app.name') }}</span>
             </a>
 

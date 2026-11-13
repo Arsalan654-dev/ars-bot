@@ -1,5 +1,5 @@
 /**
- * LISA bot widget — injected by /widget.js
+ * ARS Bot widget — injected by /widget.js
  * Adds:
  *   1. floating chat launcher + iframe panel
  *   2. optional nav link to the standalone bot page (data-nav-link="true")
