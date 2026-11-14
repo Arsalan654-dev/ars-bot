@@ -1,0 +1,56 @@
+FROM node:24-bookworm-slim AS assets
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY resources ./resources
+COPY vite.config.js ./
+RUN npm run build
+
+FROM php:8.5-cli-bookworm
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git \
+        unzip \
+        libzip-dev \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+        libonig-dev \
+        libxml2-dev \
+        libicu-dev \
+        libsqlite3-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j2 pdo_sqlite mbstring gd zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+COPY . /app
+COPY --from=assets /app/public/build /app/public/build
+
+ENV APP_ENV=production \
+    APP_DEBUG=false \
+    APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= \
+    LOG_CHANNEL=stderr \
+    DB_CONNECTION=sqlite \
+    SESSION_DRIVER=cookie \
+    CACHE_STORE=file \
+    QUEUE_CONNECTION=sync \
+    FILESYSTEM_DISK=local \
+    MAIL_MAILER=log
+
+RUN mkdir -p bootstrap/cache storage/framework/views storage/framework/cache storage/framework/sessions storage/logs storage/app/public \
+    && composer install --no-dev --no-scripts --optimize-autoloader --no-interaction --prefer-dist --no-progress \
+    && composer dump-autoload --optimize --no-scripts \
+    && rm -f bootstrap/cache/*.php \
+    && touch database/demo.sqlite \
+    && DB_DATABASE=/app/database/demo.sqlite ADMIN_PASSWORD=build-placeholder php artisan migrate:fresh --seed --force
+
+RUN chmod +x /app/docker/entrypoint.sh
+
+EXPOSE 80
+
+CMD ["/app/docker/entrypoint.sh"]
