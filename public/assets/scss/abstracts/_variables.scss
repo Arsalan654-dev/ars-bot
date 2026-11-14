@@ -1,5 +1,5 @@
 // ============================================================
-//  LISA — Design tokens (mirrors locomotive.ca design system)
+//  LISA - Design tokens (ARS Bot design system)
 // ============================================================
 
 // Colors (theme driven via data-theme on <html>)
@@ -9,7 +9,7 @@ $color-red: #da382e;
 $color-blue: #312dfb;
 $color-crimson: crimson;
 
-// Easing / durations (Locomotive's signature ease-out curve)
+// Easing / durations (ARS Bot's signature ease-out curve)
 $ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
 $ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
 $duration-fast: 0.15s;
@@ -40,7 +40,7 @@ $spacing: (
 );
 
 // Type scale
-// Stand-ins for the licensed Helvetica Now Display / PP Locomotive New faces
+// Stand-ins for the licensed Helvetica Now Display / display faces
 $font-primary: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
